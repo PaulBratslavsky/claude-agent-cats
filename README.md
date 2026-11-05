@@ -1,16 +1,15 @@
 # agent-cats
 
-A Claude Code mod that shows a pane of cats walking around, one cat for each
-type of agent that is working on a task in your session (general-purpose,
-Explore, a plugin's agent, and so on).
+A Claude Code mod that shows a pane with one ASCII cat for each subagent working in your
+session, and beside each cat a card that says what that agent is doing.
 
-- **One cat per agent type.** A cat appears when an agent of that type starts
-  a task and leaves a few minutes after its last task ends.
-- **Bigger cat, more tasks.** One running task is a small cat, two or three a
-  medium cat, four or more a large one.
-- **Hover a cat** to see its tasks: each task's description, its status
-  (running, waiting, done, failed), how long it has run, how many tool calls
-  and model steps it has made, and the last tool it used.
+- **One row per agent.** The cat is on the left, its card on the right. An agent leaves the pane
+  when it finishes; the top line counts how many finished in the last 5 minutes.
+- **The cat grows as the agent works:** small under 10 tool calls, medium up to 29, large from 30.
+- **Its eyes show the state:** `o.o` running, `-.-` waiting.
+- **The card shows** the task, the agent type, which model step it is on, how many tool calls it
+  has made and for how long, the tool it is running now and on what (`▸ Now: Bash npm test`), the
+  last line the agent wrote, and its last three tool calls with ✓ or ✗.
 
 With no agents at work, the pane shows a sleeping cat.
 
@@ -39,13 +38,12 @@ again.
 
 ## How it works
 
-Every 400 ms the mod reads the session's agents (`$.agent.list()`), records
-each one's status and start time, and moves the cats one step. It counts each
-agent's tool calls (`tool.call`) and model steps (`turn.step`) as its
-progress. There is no percentage: an agent doesn't know how far along it is.
+Every second the mod reads the session's agents (`$.agent.list()`). It counts each agent's tool calls
+(`tool.call`), with what each one worked on, and its model steps (`turn.step`), keeping the last line
+of text the agent wrote. The pane redraws only when something changed, at most every 2 seconds.
+There is no percentage: an agent doesn't know how far along it is.
 
-Built with the Claude Code plugin API, which is in early access and may change
-between releases.
+Built with the Claude Code plugin API, which is in early access and may change between releases.
 
 ## License
 
