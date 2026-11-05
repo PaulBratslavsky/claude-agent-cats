@@ -1,5 +1,13 @@
 {
   "name": "agent-cats",
-  "owner": { "name": "Paul Bratslavsky" },
-  "plugins": [{ "name": "agent-cats", "source": "./" }]
+  "owner": {
+    "name": "Paul Bratslavsky"
+  },
+  "description": "agent-cats: a Claude Code pane with one ASCII cat per working subagent",
+  "plugins": [
+    {
+      "name": "agent-cats",
+      "source": "./"
+    }
+  ]
 }
