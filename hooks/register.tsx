@@ -192,6 +192,10 @@ export const register: Register = on => {
     const { Box, Text } = $.ui.resolve(e)
     const all = Object.values(await read($, tasks))
     const nowMs = await $.clock.now()
+    // The pane's own width: the card takes what the cat leaves, so long lines
+    // are cut at its edge instead of running off the pane.
+    const width = Math.max(30, e.props.bodyColumns || 60)
+    const cardWidth = Math.max(16, width - SPRITE_WIDTH - 2)
 
     // One row per agent, running ones first: its cat on the left, its
     // details on the right.
@@ -220,13 +224,13 @@ export const register: Register = on => {
       const now = last && !last.isDone ? last : undefined
       const earlier = task.recent.filter(u => u !== now).slice(-3).reverse()
       return (
-        <Box key={`agent-${task.id}`} flexDirection="row" width="100%" columnGap={1}>
+        <Box key={`agent-${task.id}`} flexDirection="row" width={width} columnGap={1}>
           <Box flexDirection="column" width={SPRITE_WIDTH} flexShrink={0} alignItems="center" justifyContent="flex-end">
             {lines.map(line => (
               <Text color={color}>{line}</Text>
             ))}
           </Box>
-          <Box flexDirection="column" flexGrow={1} flexShrink={1} borderStyle="round" borderColor={color}>
+          <Box flexDirection="column" width={cardWidth} flexShrink={0} borderStyle="round" borderColor={color} overflow="hidden">
             <Text bold wrap="truncate-end">
               {ICONS[task.status] ?? '?'} {task.description || '(no description)'}
             </Text>
