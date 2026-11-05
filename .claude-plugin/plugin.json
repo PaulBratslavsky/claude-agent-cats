@@ -1,0 +1,10 @@
+{
+  "name": "agent-cats",
+  "version": "0.1.0",
+  "description": "A pane of cats walking around, one per agent type at work; hover a cat to see its tasks and their progress.",
+  "types": "./types/index.d.ts",
+  "license": "MIT",
+  "author": {
+    "name": "Paul Bratslavsky"
+  }
+}
